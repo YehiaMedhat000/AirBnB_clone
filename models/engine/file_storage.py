@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Module for the `FileStorage` class definiton """
 import json
+from models.base_model import BaseModel
 
 
 class FileStorage:
@@ -15,7 +16,7 @@ class FileStorage:
         all -- Returns the dictionary __objects
     """
 
-    __file_path = ""
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
@@ -36,7 +37,7 @@ class FileStorage:
         serialized_objects = {}
         for key, obj in self.__objects.items():
             serialized_objects[key] = obj.to_dict()
-        with open(self.__file_path, 'a') as file:
+        with open(self.__file_path, 'w') as file:
             json.dump(serialized_objects, file)
 
     def reload(self):
