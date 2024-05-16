@@ -2,7 +2,12 @@
 """ Module for the `FileStorage` class definiton """
 import json
 from models.base_model import BaseModel
-
+from models.review import Review
+from models.user import User
+from models.place import Place
+from models.amenity import Amenity
+from models.state import State
+from models.city import City
 
 class FileStorage:
     """ Class for serializing instances to a JSON file
