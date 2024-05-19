@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
     names = ["BaseModel", "User", "State",
-             "City", "Place", "Amenity", "Review"]
+                "City", "Place", "Amenity", "Review"]
 
     def do_quit(self, arg):
         """ Function that handles the quit command
@@ -73,6 +73,48 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
                 return False
         return True
+
+    def default(self, line):
+        """ Override for the default method
+            to handle the dot notation and other commands
+
+        Args:
+            line -- The line passed to the command
+            self -- The cmd object
+        """
+        if '.' in line and '(' in line and line[-1] == ')':
+            args = line.split('.')
+            class_name = args[0]
+            method_call = args[1].split('(')
+            method_name = method_call[0]
+            method_args = method_call[1][:-1].replace('"', '').replace("'", "")
+            
+            # Switch-case equivalent
+            switcher = {
+                "show": self.do_show,
+                "destroy": self.do_destroy,
+                "all": self.do_all,
+                "count": self.do_count
+            }
+
+            # Call the appropriate method based on the method name
+            func = switcher.get(method_name)
+            if func:
+                func(f"{class_name} {method_args}")
+            else:
+                self.stdout.write('*** Unknown method: %s\n' % method_name)
+        else:
+            self.stdout.write('*** Unknown syntax: %s\n' % line)
+
+    def do_count(self, arg):
+        """ Function that handles the count command """
+        args = arg.split()
+        count = 0
+        if self.validate_input(args, min_args=1, id_check=False):
+            for key, _ in storage.all().items():
+                if args[0] in key:
+                    count += 1
+            print(count)
 
     def do_create(self, arg):
         """ Function that handles the create command
@@ -154,7 +196,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 attribute_name = args[2]
                 attribute_value = args[3]
-                obj = models.storage.all()[key]
+                obj = storage.all()[key]
                 try:
                     setattr(obj, attribute_name, eval(attribute_value))
                 except Exception as e:
