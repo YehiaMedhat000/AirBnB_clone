@@ -23,7 +23,7 @@ class HBNBCommand(cmd.Cmd):
     """
     prompt = "(hbnb) "
     names = ["BaseModel", "User", "State",
-                "City", "Place", "Amenity", "Review"]
+             "City", "Place", "Amenity", "Review"]
 
     def do_quit(self, arg):
         """ Function that handles the quit command
@@ -88,7 +88,7 @@ class HBNBCommand(cmd.Cmd):
             method_call = args[1].split('(')
             method_name = method_call[0]
             method_args = method_call[1][:-1].replace('"', '').replace("'", "")
-            
+
             # Switch-case equivalent
             switcher = {
                 "show": self.do_show,

@@ -9,6 +9,7 @@ from models.amenity import Amenity
 from models.state import State
 from models.city import City
 
+
 class FileStorage:
     """ Class for serializing instances to a JSON file
         and deserializing JSON file to instances
